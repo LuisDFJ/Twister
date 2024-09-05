@@ -5,13 +5,13 @@ import time
 
 class SerialCom:
     def __init__(self, port, callback, baudrate=115200) -> None:
-        self.ser = Serial( port, baudrate=baudrate, timeout=0.005 )
+        self.ser = Serial( port, baudrate=baudrate, timeout=0.004 )
         self.tasks = []
         self.bussy = False
         self.position = 0
         self.callback = callback
         self._iter = self.loop()
-
+        
     def next(self):
         return next( self._iter )
 
@@ -21,21 +21,21 @@ class SerialCom:
         return msg + b"*" + cs.to_bytes(2,"little")
 
     def m0( steps ):
-        msg = str.encode( "M0 ", "ascii" ) #paso a la derecha
+        msg = str.encode( "M0 ", "ascii" )
         msg = msg + steps.to_bytes(2,"little")
         return SerialCom.cs(msg)
 
     def m1( steps ):
-        msg = str.encode( "M1 ", "ascii" ) #paso a la izquierda
+        msg = str.encode( "M1 ", "ascii" )
         msg = msg + steps.to_bytes(2,"little")
         return SerialCom.cs(msg)
 
     def p0():
-        msg = str.encode( "P0 ", "ascii" ) #setea en 0 la var de posicion
+        msg = str.encode( "P0 ", "ascii" )
         return SerialCom.cs(msg)
 
     def p1():
-        msg = str.encode( "P1 ", "ascii" ) # regresa la posición
+        msg = str.encode( "P1 ", "ascii" )
         return SerialCom.cs(msg)
 
     def move(self, steps : int):

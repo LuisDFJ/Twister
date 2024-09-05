@@ -138,7 +138,7 @@ class PanelModel( QtWidgets.QWidget, PanelView ):
     def ValidateConnectionSensor ( self ):
         try:
             if self.ports:
-                self.serSensor = serial.Serial( timeout = 100) 
+                self.serSensor = serial.Serial( timeout = 0.1 ) 
                 self.serSensor.baudrate = 115200
                 self.serSensor.port = self.selected_port_sensor()
                 self.serSensor.open()
@@ -262,9 +262,11 @@ class PanelModel( QtWidgets.QWidget, PanelView ):
                     self.serControl.schedule( ("P",) )
 
                     for i in range(100):
+                       print( self.positions )
                        self.serControl.next()
+                       time.sleep(0.1)
 
-                    expected = [0,50,0,24]
+                    expected = [0,50,0,25]
 
                     if self.positions == expected:
                         print("Verification routine finished")
