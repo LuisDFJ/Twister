@@ -1,0 +1,6 @@
+embed/.vscode
+embed/Build/*.o
+embed/Build/*.su
+embed/Build/*.elf
+src/__pycache__
+src/*/__pycache__
